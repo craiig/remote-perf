@@ -1,0 +1,12 @@
+A tool to execute perf on a set of given machines in AWS
+
+Given a list of instances, amis, or security groups, or..?
+It will setup and install perf on all machines.
+Start system-wide profiling as root
+When you hit ctrl+c (or after the specified time)
+all profiling will be stopped
+(optionally) the results of all profiling can be downloaded to the local machine
+alternatively, we could support downloading to another machine for analysis
+
+
+
