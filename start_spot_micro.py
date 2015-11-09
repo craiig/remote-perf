@@ -72,10 +72,11 @@ def get_cheapest_spot_instance(client):
     first.sort_values(by=["SpotPrice"], inplace=True)
 
     first.reset_index(inplace=True)
-    return first.to_dict(orient='records')[0]
+    print first
+    return first.to_dict(orient='records')
 
 cheapest_instance = get_cheapest_spot_instance(client)
-lowest_price = float(cheapest_instance['SpotPrice']) + price_delta
+#lowest_price = float(cheapest_instance['SpotPrice']) + price_delta
 
 def get_create_security_group(res, default_rules):
     sgs = get_filter_all(res.security_groups.filter, {'group-name': [group_name]} )
@@ -103,7 +104,9 @@ def get_create_security_group(res, default_rules):
 
 print "Cheapest instance found:"
 print cheapest_instance
-print "Going to pay: %s" % lowest_price
+# print "Going to pay: %s" % lowest_price
+
+"""
 if interactive:
     raw_input("Proceed? Ctrl+C to stop")
 
@@ -135,3 +138,4 @@ else:
         client.cancel_spot_instance_requests(SpotInstanceRequestIds=spot_ids)
 
     print "Spot requests fulfilled!"
+"""
