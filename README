@@ -1,6 +1,10 @@
 A tool to execute perf on a set of given remote machines and to analyze the result.
 Runs interactively, profiling happens while script is running
 
+Installation:
+ * setup a virtualenv if you don't want to install stuff globally with pip
+ * make install
+
 Usage:
  * make hosts=path_to_hosts run
  * run your benchmark and wait
@@ -9,8 +13,5 @@ Usage:
  * perf data is downloaded to local machine
  * make analyze
  * flame graphs are generated
-
-Installation:
- * make install
 
 This installs a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them abruptly. This allows perf to clean up on the remote side.
