@@ -9,3 +9,8 @@ Usage:
  * perf data is downloaded to local machine
  * make analyze
  * flame graphs are generated
+
+Installation:
+ * make install
+
+This installs a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them abruptly. This allows perf to clean up on the remote side.
