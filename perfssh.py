@@ -5,6 +5,8 @@
 # Copyright (c) 2003-2008, Brent N. Chun
 
 """Parallel ssh to the set of nodes in hosts.txt.
+modified by Craig Mustard to better support running perf remotely
+requires pssh at https://github.com/craiig/parallel-ssh
 
 For each node, this essentially does an "ssh host -l user prog [arg0] [arg1]
 ...". The -o option can be used to store stdout from each remote node in a
@@ -15,6 +17,7 @@ corresponding remote node's hostname or IP address.
 import fcntl
 import os
 import sys
+import signal
 
 parent, bindir = os.path.split(os.path.dirname(os.path.abspath(sys.argv[0])))
 if os.path.exists(os.path.join(parent, 'psshlib')):
@@ -42,6 +45,8 @@ def option_parser():
             help='read from standard input and send as input to ssh')
     parser.add_option('-P', '--print', dest='print_out', action='store_true',
             help='print output as we get it')
+    parser.add_option('--soft_kill', dest='soft_kill', action='store_true',
+            help='write ctrl+c char (0x03) to processes instead of sending SIGKILL on termination')
 
     return parser
 
@@ -71,7 +76,7 @@ def do_pssh(hosts, cmdline, opts):
     manager = Manager(opts)
     for host, port, user in hosts:
         cmd = ['ssh', host, '-o', 'NumberOfPasswordPrompts=1',
-                '-o', 'SendEnv=PSSH_NODENUM PSSH_HOST']
+                '-o', 'SendEnv=PSSH_NODENUM PSSH_HOST', '-t', '-t']
         if opts.options:
             for opt in opts.options:
                 cmd += ['-o', opt]
@@ -103,8 +108,16 @@ def do_pssh(hosts, cmdline, opts):
             sys.exit(5)
 
 if __name__ == "__main__":
+    #trap keyboardinterrupt
+    # so we can cleanly shut down
+    def sigint_handler(signal, frame):
+        print "kill all ssh sessions lol"
+
+    # signal.signal(signal.SIGINT, sigint_handler)
+
     opts, args = parse_args()
     cmdline = " ".join(args)
+    
     try:
         hosts = psshutil.read_host_files(opts.host_files,
             default_user=opts.user)
