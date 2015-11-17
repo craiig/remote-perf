@@ -1,5 +1,7 @@
 #set hosts via the command line or by editing this line to point at the list of 
 # hosts you want to connect to.
+# format:
+#  user@host:port
 hosts := hosts.txt
 
 #where the flamegraph git has been cloned
@@ -13,8 +15,8 @@ install:
 	pip install git+https://github.com/craiig/parallel-ssh
 
 run:
-	./perfssh.py -v -l ec2-user \
-		--hosts=../LaunchAWS/active_instance_ips.txt \
+	./pssh.py -v -l ec2-user \
+		--hosts=$(hosts) \
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
@@ -22,15 +24,15 @@ run:
 
 
 get:
-	./perfssh.py -v -l ec2-user \
-		--hosts=../LaunchAWS/active_instance_ips.txt \
+	./pssh.py -v -l ec2-user \
+		--hosts=$(hosts) \
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
 		'cd perfdata && sudo chmod a+rw * && perf script > perf.out'
 
-	./perfscp.py -v -l ec2-user \
-		--hosts=../LaunchAWS/active_instance_ips.txt \
+	./pscp.py -v -l ec2-user \
+		--hosts=$(hosts) \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
 		perfdata/* output/perfdata

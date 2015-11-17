@@ -1,12 +1,11 @@
-A tool to execute perf on a set of given machines in AWS
+A tool to execute perf on a set of given remote machines and to analyze the result.
+Runs interactively, profiling happens while script is running
 
-Given a list of instances, amis, or security groups, or..?
-It will setup and install perf on all machines.
-Start system-wide profiling as root
-When you hit ctrl+c (or after the specified time)
-all profiling will be stopped
-(optionally) the results of all profiling can be downloaded to the local machine
-alternatively, we could support downloading to another machine for analysis
-
-
-
+Usage:
+ * make hosts=path_to_hosts run
+ * run your benchmark and wait
+ * Ctrl+C to stop profiling on the remote machines
+ * make hosts=path_to_hosts get 
+ * perf data is downloaded to local machine
+ * make analyze
+ * flame graphs are generated
