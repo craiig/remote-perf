@@ -4,6 +4,7 @@ Runs interactively, profiling happens while script is running
 Installation:
  * setup a virtualenv if you don't want to install stuff globally with pip
  * make install
+ * run the user_data.sh on the remote machine somehow (provide it as user_data when launching an instance)
 
 Usage:
  * make hosts=path_to_hosts run
