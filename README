@@ -14,4 +14,4 @@ Usage:
  * make analyze
  * flame graphs are generated
 
-This installs a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them abruptly. This allows perf to clean up on the remote side.
+This installs a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them via a signal. This allows perf to clean up on the remote side.
