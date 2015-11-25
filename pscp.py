@@ -31,7 +31,7 @@ from psshlib.manager import Manager, FatalError
 from psshlib.task import Task
 from psshlib.cli import common_parser, common_defaults
 
-_DEFAULT_TIMEOUT = 60
+_DEFAULT_TIMEOUT = -1
 
 def option_parser():
     parser = common_parser()
