@@ -3,6 +3,7 @@
 # format:
 #  user@host:port
 hosts := hosts.txt
+user := root
 
 #where the flamegraph git has been cloned
 flamegraphdir := ../FlameGraph/
@@ -15,23 +16,23 @@ install:
 	pip install git+https://github.com/craiig/parallel-ssh
 
 run:
-	./pssh.py -v -l ec2-user \
+	./pssh.py -v -l $(user) \
 		--hosts=$(hosts) \
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
-		'mkdir -p perfdata && cd perfdata && sudo perf record -ag -o perf.data -- 2> perf_output.txt'
+		'echo started; mkdir -p perfdata && cd perfdata && sudo perf record -ag -o perf.data -- 2> perf_output.txt'
 
 
 get:
-	./pssh.py -v -l ec2-user \
+	./pssh.py -v -l $(user) \
 		--hosts=$(hosts) \
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
 		'cd perfdata && sudo chmod a+rw * && perf script > perf.out'
 
-	./pscp.py -v -l ec2-user \
+	./pscp.py -v -l $(user) \
 		--hosts=$(hosts) \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
