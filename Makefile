@@ -21,7 +21,7 @@ run:
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
-		'echo started; mkdir -p perfdata && cd perfdata && sudo perf record -ag -o perf.data -- 2> perf_output.txt'
+		'echo started; ~/jmaps; mkdir -p perfdata && cd perfdata && sudo perf record -ag -o perf.data -- 2> perf_output.txt'
 
 
 get:
@@ -30,7 +30,7 @@ get:
 		--soft_kill \
 		-i \
 		-x "-oStrictHostKeyChecking=no -i ../spark-tests.pem" \
-		'cd perfdata && sudo chmod a+rw * && perf script > perf.out'
+		'cd perfdata && sudo chmod a+rw * && perf script | gzip > perf.out.gz'
 
 	./pscp.py -v -l $(user) \
 		--hosts=$(hosts) \
@@ -40,6 +40,9 @@ get:
 
 
 flamegraphs := $(patsubst output/perfdata/%,output/flamegraphs/%.svg,$(wildcard output/perfdata/*))
+output/perfdata/%/perf.out:  output/perfdata/%/perf.out.gz
+	gzip -d -c $< > $@
+
 output/perfdata/%/perf.data.folded:  output/perfdata/%/perf.out
 	$(flamegraphdir)/stackcollapse-perf.pl $< > $@
 
