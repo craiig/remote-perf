@@ -1,5 +1,6 @@
 A tool to execute perf on a set of given remote machines and to analyze the result.
 Runs interactively, profiling happens while script is running
+OR can be start/stop like a daemon
 
 Installation:
  * setup a virtualenv if you don't want to install stuff globally with pip
@@ -15,4 +16,10 @@ Usage:
  * make analyze
  * flame graphs are generated
 
-This installs a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them via a signal. This allows perf to clean up on the remote side.
+Daemon usage:
+ * make daemon-run hosts=...
+ * wait
+ * make daemon-stop
+ * use as above
+
+This depends on a customized version of parallel-ssh that sends the ctrl+c character to the remote machines, instead of killing them via a signal. This allows perf to clean up on the remote side. (See user_data.sh for install)
