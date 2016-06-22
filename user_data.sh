@@ -61,7 +61,8 @@ cat > ~/java << EOF
 source /root/.bash_profile
 /etc/alternatives/java \$@
 EOF
-chmod +x ~/java
+chmod +rx ~/java
+chmod +rx ~/
 #rm /usr/bin/java
 ln -sf ~/java /usr/bin/java
 

@@ -6,6 +6,8 @@ Installation:
  * setup a virtualenv if you don't want to install stuff globally with pip
  * make install
  * run the user_data.sh on the remote machine somehow (provide it as user_data when launching an instance)
+ * if you are using a docker config, add the contents of Dockerfile to your own dockerfile
+ * the best success I've had is with an oracle 8u jdk
 
 Usage:
  * make hosts=path_to_hosts run
